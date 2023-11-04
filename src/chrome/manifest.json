@@ -6,5 +6,13 @@
     "action": {
       "default_popup": "index.html",
       "default_icon": "assets/images/hello_extensions.png"
-    }
+    },
+    "content_scripts": [
+      {
+        "js": ["assets/js/constants.js", "assets/js/helpers.js","assets/js/chatting.js", "assets/js/live_support_contents.js"],
+        "matches": [
+          "http://52.27.188.125:3000/app/accounts/*/inbox/*/conversations/*"
+        ]
+      }
+    ]
   }
