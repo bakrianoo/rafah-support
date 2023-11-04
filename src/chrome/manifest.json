@@ -1,6 +1,6 @@
 {
     "name": "Rafah Support",
-    "description": "An AI Digital Assistant Extension for Helping Customer Support Agents.",
+    "description": "An AI Digital Assistant Extension for Helping the Customer Support Agents.",
     "version": "0.1",
     "manifest_version": 3,
     "action": {
@@ -11,7 +11,7 @@
       {
         "js": ["assets/js/constants.js", "assets/js/helpers.js","assets/js/chatting.js", "assets/js/live_support_contents.js"],
         "matches": [
-          "http://52.27.188.125:3000/app/accounts/*/inbox/*/conversations/*"
+          "*://*/app/accounts/*/inbox/*/conversations/*"
         ]
       }
     ]
