@@ -1,0 +1,10 @@
+{
+    "name": "Rafah Support",
+    "description": "An AI Digital Assistant Extension for Helping Customer Support Agents.",
+    "version": "0.1",
+    "manifest_version": 3,
+    "action": {
+      "default_popup": "index.html",
+      "default_icon": "assets/images/hello_extensions.png"
+    }
+  }
