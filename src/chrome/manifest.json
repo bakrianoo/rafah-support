@@ -16,7 +16,11 @@
           "http://*:*/app/accounts/*/inbox/*/conversations/*",
           "http://*/app/accounts/*/inbox/*/conversations/*",
           "https://*:*/app/accounts/*/inbox/*/conversations/*",
-          "https://*/app/accounts/*/inbox/*/conversations/*"
+          "https://*/app/accounts/*/inbox/*/conversations/*",
+          "http://*:*/app/accounts/*/conversations/*",
+          "http://*/app/accounts/*/conversations/*",
+          "https://*:*/app/accounts/*/conversations/*",
+          "https://*/app/accounts/*/conversations/*"
         ]
       }
     ]
