@@ -3,15 +3,20 @@
     "description": "An AI Digital Assistant Extension for Helping the Customer Support Agents.",
     "version": "0.1",
     "manifest_version": 3,
+    "options_page": "options.html",
     "action": {
       "default_popup": "index.html",
       "default_icon": "assets/images/hello_extensions.png"
     },
+    "permissions": ["storage"],
     "content_scripts": [
       {
         "js": ["assets/js/constants.js", "assets/js/helpers.js","assets/js/chatting.js", "assets/js/live_support_contents.js"],
         "matches": [
-          "*://*/app/accounts/*/inbox/*/conversations/*"
+          "http://*:*/app/accounts/*/inbox/*/conversations/*",
+          "http://*/app/accounts/*/inbox/*/conversations/*",
+          "https://*:*/app/accounts/*/inbox/*/conversations/*",
+          "https://*/app/accounts/*/inbox/*/conversations/*"
         ]
       }
     ]

@@ -3,9 +3,7 @@
 // Description: This file is for content scripts of the live support page
 
 // wait until page is loaded
-window.onload = function(){
-    Helpers.rlog('Changing the text of the button...');
-    
+window.onload = function(){    
     // get panel-footer controllers buttons
     let controllers_selector = 'div.bottom-box > div.left-wrap';
 
@@ -31,3 +29,5 @@ window.onload = function(){
     // append summary button to the controllers
     controllers.appendChild(summary_button);
 }
+
+Helpers.rlog('Starting Rafah AI Support');

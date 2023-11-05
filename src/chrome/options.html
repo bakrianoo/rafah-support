@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Bulma!</title>
+    <link rel="stylesheet" href="assets/style/bulma.min.css">
+    <link rel="stylesheet" href="assets/style/options.css">
+    
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">Rafah Options</h1>
+      
+      <div class="box">
+        <div class="field">
+          <label class="label">Vectara API Key</label>
+          <div class="control">
+            <input name="opt-vectara-api-key" id="opt-vectara-api-key" class="input" type="password" placeholder="*****">
+          </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Anyscale API Key</label>
+            <div class="control">
+              <input name="opt-anyscale-api-key" id="opt-anyscale-api-key" class="input" type="password" placeholder="*****">
+            </div>
+        </div>
+
+        <!-- submit button -->
+        <div class="field">
+          <div class="control">
+            <button class="button is-link" id="save-options-btn">Save</button>
+          </div>
+        </div>
+
+        <!-- notification messages -->
+        <section class="warning-section">
+            <div class="notification is-danger"></div>
+        </section>
+        <section class="success-section">
+            <div class="notification is-success"></div>
+        </section>
+    </div>
+
+
+
+    </div>
+  </section>
+
+    
+
+    <!-- scripts -->
+    <script src="assets/js/options.js"></script>
+  </body>
+</html>
