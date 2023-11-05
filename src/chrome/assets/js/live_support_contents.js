@@ -3,7 +3,38 @@
 // Description: This file is for content scripts of the live support page
 
 // wait until page is loaded
-window.onload = function(){    
+window.onload = function(){
+    
+    window.vectara_api_key = null;
+    window.anyscale_api_key = null;
+
+    // get the vectara_api_key from chrome storage
+    chrome.storage.sync.get('vectara_api_key', (data) => {
+        // check if vectara_api_key is not undefined
+        if(data.vectara_api_key != undefined) {
+            // set the vectara_api_key input value
+            window.vectara_api_key = data.vectara_api_key;
+        }
+    });
+
+    // get the anyscale_api_key from chrome storage
+    chrome.storage.sync.get('anyscale_api_key', (data) => {
+        // check if vectara_api_key is not undefined
+        if(data.anyscale_api_key != undefined) {
+            // set the vectara_api_key input value
+            window.anyscale_api_key = data.anyscale_api_key;
+        }
+    });
+
+    // get the anyscale_llm_model from chrome storage
+    chrome.storage.sync.get('anyscale_llm_model', (data) => {
+        // check if vectara_api_key is not undefined
+        if(data.anyscale_llm_model != undefined) {
+            // set the vectara_api_key input value
+            window.anyscale_llm_model = data.anyscale_llm_model;
+        }
+    });
+    
     // get panel-footer controllers buttons
     let controllers_selector = 'div.bottom-box > div.left-wrap';
 
@@ -23,11 +54,25 @@ window.onload = function(){
 
     // add event listener to the button
     summary_button.addEventListener('click', function() {
-        Chatttings.getSummary();
+        Chatttings.get_anyscale_response();
     });
 
     // append summary button to the controllers
     controllers.appendChild(summary_button);
+
+}
+
+let lastUrl = location.href; 
+new MutationObserver(() => {
+  const url = location.href;
+  if (url !== lastUrl) {
+    lastUrl = url;
+    onUrlChange();
+  }
+}).observe(document, {subtree: true, childList: true});
+
+function onUrlChange() {
+  console.log('URL changed!', location);
 }
 
 Helpers.rlog('Starting Rafah AI Support');

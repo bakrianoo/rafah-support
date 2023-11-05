@@ -1,6 +1,4 @@
-
 const saveOptions = () => {
-
     // hide the .warning-section if it's visible
     const warningSection = document.querySelector('.warning-section');
     const successSection = document.querySelector('.success-section');
@@ -15,6 +13,9 @@ const saveOptions = () => {
     // collect options inputs
     const vectara_api_key = document.getElementById('opt-vectara-api-key').value;
     const anyscale_api_key = document.getElementById('opt-anyscale-api-key').value;
+    const anyscale_llm_model = document.getElementById('opt-anyscale-llm-model').value;
+    const platform_url = document.getElementById('opt-platform-url').value;
+    const opt_support_platform_app = document.getElementById('opt-support-platform-app').value;
     
     // check if vectara_api_key is empty
     if(vectara_api_key == '') {
@@ -24,6 +25,11 @@ const saveOptions = () => {
     // check if anyscale_api_key is empty
     if(anyscale_api_key == '') {
         errors.push('Anyscale API Key is required');
+    }
+
+    // check if platform_url is empty or not a valid url
+    if(platform_url == '' || !Helpers.isValidURL(platform_url)) {
+        errors.push('Platform URL is required and must be a valid URL');
     }
 
     // check if errors array is not empty
@@ -45,7 +51,10 @@ const saveOptions = () => {
     chrome.storage.sync.set(
       { 
         vectara_api_key: vectara_api_key,
-        anyscale_api_key: anyscale_api_key
+        anyscale_api_key: anyscale_api_key,
+        anyscale_llm_model: anyscale_llm_model,
+        support_platform_app: opt_support_platform_app,
+        platform_url: platform_url,
       },
       () => {
         // Update status to let user know options were saved.
@@ -70,6 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // get the vectara_api_key input
     const vectara_api_key = document.getElementById('opt-vectara-api-key');
     const anyscale_api_key = document.getElementById('opt-anyscale-api-key');
+    const anyscale_llm_model = document.getElementById('opt-anyscale-llm-model');
+    const platform_url = document.getElementById('opt-platform-url');
+    const opt_support_platform_app = document.getElementById('opt-support-platform-app');
 
     // get the vectara_api_key from chrome storage
     chrome.storage.sync.get('vectara_api_key', (data) => {
@@ -86,6 +98,35 @@ document.addEventListener('DOMContentLoaded', () => {
         if(data.anyscale_api_key != undefined) {
             // set the vectara_api_key input value
             anyscale_api_key.value = data.anyscale_api_key;
+        }
+    });
+
+    // get the anyscale_llm_model from chrome storage
+    chrome.storage.sync.get('anyscale_llm_model', (data) => {
+        // check if vectara_api_key is not undefined
+        if(data.anyscale_llm_model != undefined) {
+            // set the vectara_api_key input value
+            anyscale_llm_model.value = data.anyscale_llm_model;
+        } else {
+            anyscale_llm_model.value = window.ANYSCALE_LLM_MODEL;
+        }
+    });
+
+    // get the platform_url from chrome storage
+    chrome.storage.sync.get('platform_url', (data) => {
+        // check if vectara_api_key is not undefined
+        if(data.platform_url != undefined) {
+            // set the vectara_api_key input value
+            document.getElementById('opt-platform-url').value = data.platform_url;
+        }
+    });
+
+    // get the support_platform_app from chrome storage
+    chrome.storage.sync.get('support_platform_app', (data) => {
+        // check if vectara_api_key is not undefined
+        if(data.support_platform_app != undefined) {
+            // set the vectara_api_key input value
+            document.getElementById('opt-support-platform-app').value = data.support_platform_app;
         }
     });
 });

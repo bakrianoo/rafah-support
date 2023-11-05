@@ -24,12 +24,21 @@ class Helpers {
         return `${hours}:${minutes}:${seconds}`;
     }
 
+    static isValidURL(string) {
+        try {
+          new URL(string);
+        } catch (_) {
+          return false;  
+        }
+      
+        return true;
+    }
+
     // function to use a custom log
     static rlog(...args) {
         // append LOG_PREFIX to the arguments at the beginning
-          args.unshift(LOG_PREFIX);
+          args.unshift(window.LOG_PREFIX);
           console.log(...args);
           return;
     }
-
 }

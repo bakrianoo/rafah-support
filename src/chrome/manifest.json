@@ -19,14 +19,10 @@
       {
         "js": ["assets/js/constants.js", "assets/js/helpers.js","assets/js/chatting.js", "assets/js/live_support_contents.js"],
         "matches": [
-          "http://*:*/app/accounts/*/inbox/*/conversations/*",
-          "http://*/app/accounts/*/inbox/*/conversations/*",
-          "https://*:*/app/accounts/*/inbox/*/conversations/*",
-          "https://*/app/accounts/*/inbox/*/conversations/*",
-          "http://*:*/app/accounts/*/conversations/*",
-          "http://*/app/accounts/*/conversations/*",
-          "https://*:*/app/accounts/*/conversations/*",
-          "https://*/app/accounts/*/conversations/*"
+          "http://*:*/*",
+          "http://*/*",
+          "https://*:*/*",
+          "https://*/*"
         ]
       }
     ]

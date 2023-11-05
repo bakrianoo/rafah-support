@@ -14,8 +14,27 @@
       <h1 class="title">
          <img src="assets/images/logo-64.png" alt="Rafah Logo" width="50" height="50"> Rafah Options
       </h1>
-      
+
       <div class="box">
+
+        <div class="field">
+            <label class="label">Platform</label>
+            <div class="control">
+                <div class="select">
+                <select id="opt-support-platform-app">
+                    <option value="chatwoot">ChatWoot</option>
+                </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Platform URL</label>
+            <div class="control">
+              <input name="opt-platform-url" id="opt-platform-url" class="input" type="text" placeholder="https://chatwoot.com">
+            </div>
+        </div>
+
         <div class="field">
           <label class="label">Vectara API Key</label>
           <div class="control">
@@ -29,6 +48,21 @@
               <input name="opt-anyscale-api-key" id="opt-anyscale-api-key" class="input" type="password" placeholder="*****">
             </div>
         </div>
+
+        <!-- select input -->
+        <div class="field">
+            <label class="label">Anyscale LLM Model</label>
+            <div class="control">
+                <div class="select">
+                <select name="opt-anyscale-llm-model" id="opt-anyscale-llm-model">
+                    <option value="mistralai/Mistral-7B-Instruct-v0.1">mistral-7b</option>
+                    <option value="meta-llama/Llama-2-7b-chat-hf">llama-7b</option>
+                    <option value="meta-llama/Llama-2-13b-chat-hf">llama-13b</option>
+                </select>
+                </div>
+            </div>
+        </div>
+
 
         <!-- submit button -->
         <div class="field">
@@ -46,14 +80,11 @@
         </section>
     </div>
 
-
-
     </div>
   </section>
 
-    
-
     <!-- scripts -->
+    <script src="assets/js/helpers.js"></script>
     <script src="assets/js/options.js"></script>
   </body>
 </html>
