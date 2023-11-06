@@ -10,13 +10,13 @@ class Chatttings {
     }
 
     // get anyscale LLM response
-    static get_anyscale_response(){
+    static get_anyscale_response(messages){
 
         const url = window.ANYSCALE_API_ENDPOINT + '/chat/completions';
 
         const payload = {
             "model": (window.anyscale_llm_model != undefined) ? window.anyscale_llm_model : window.ANYSCALE_LLM_MODEL,
-            "messages": [{"role": "system", "content": "You are a helpful assistant."}, {"role": "user", "content": "Say 'test'."}],
+            "messages": messages,
             "temperature": window.ANYSCALE_LLM_TEMPERATURE
         };
 
