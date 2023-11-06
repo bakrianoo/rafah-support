@@ -1,0 +1,16 @@
+.topic-name-tag {
+    font-size: 10px !important;
+    height: 22px !important;
+    background-color: cadetblue !important;
+    float: right !important;
+    margin-left: 8px !important;
+}
+
+div.text-content p {
+    float: left;
+    margin-right: 8px !important;
+}
+
+.message--read .is-text {
+    min-width: 480px !important;
+}

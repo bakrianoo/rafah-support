@@ -10,7 +10,7 @@ class Chatttings {
     }
 
     // get anyscale LLM response
-    static get_anyscale_response(messages){
+    static async get_anyscale_response(messages){
 
         const url = window.ANYSCALE_API_ENDPOINT + '/chat/completions';
 
@@ -22,29 +22,79 @@ class Chatttings {
 
         const headers = {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${window.anyscale_api_key}`
+            "Authorization": `Bearer ${window.ANYSCALE_API_KEY}`
         };
 
-        fetch(url, {
-            method: "POST",
-            headers: headers,
-            body: JSON.stringify(payload)
-        })
-        .then(response => response.json())
-        .then(data => {
-            // check if data has choices
-            if(data.choices != undefined) {
-                // get the first choice
-                let choice = data.choices[0];
+        // using axios, send a POST JSON request
+        let response = await axios.post(url, payload, {headers: headers})
 
-                // check if choice has text
-                if(choice.message != undefined) {
-                    console.log(choice.message.content);
-                }
-            }
+        if(response.status == 200 && response.data != undefined && response.data.choices != undefined){
+            return response.data.choices[0].message.content;
+        }
+
+        return null;
+    }
+
+    // retrieve cached response from local storage
+    static async  getCachedResponse(key){
+        return localStorage.getItem(key);
+    }
+
+    // store response in local storage
+    static async storeResponse(key, response){
+        // store the response in the local storage
+        localStorage.setItem(key, response);
+        return true;
+    }
+
+    // function to generate topic modeling of messages
+    static async getMessagesTopicModeling(messages, tab_key, default_topic_name = 'general-talking'){
+        // iterate over all messages dom element
+        for(var x in messages){
             
-        })
-        .catch((error) => console.error('Error:', error));
+            // check if class = 'left' is in the dom element
+            if(messages[x].classList && messages[x].classList.contains('left')){
+                // query the div.text-content of the message
+                let message_text = messages[x].querySelector('div.text-content p');
 
+                // extract a topic for the message
+                let dom_text = message_text.innerText;
+
+                let message_key = await this.getMessageKey(tab_key, dom_text);
+                let response = await this.getCachedResponse(message_key);
+
+                if(!response){
+                    let messsages = Templates.topicModelingTemplate(dom_text)
+                    response = await this.get_anyscale_response(messsages);
+
+                    // store the response in the local storage
+                    let _ = await this.storeResponse(message_key, response);
+                }
+
+                // create button element
+                let button = document.createElement('button');
+                button.classList.add('topic-name-tag');
+                button.classList.add('button');
+
+                // if response not empty and the strip only contains one word
+                if(response != null && response.trim().split(' ').length == 1){
+                    // set the button text
+                    button.innerText = response.trim();
+                    // append the button to the message
+                    message_text.appendChild(button);
+                } else {
+                    // set the button text
+                    button.innerText = default_topic_name;
+                    // append the button to the message
+                    message_text.appendChild(button);
+                }
+            }  
+        }
+    }
+
+    static async getMessageKey(tab_key, message_text){
+        let message_key = `${tab_key}-${message_text}}`
+        // keep only alphanumeric and - characters
+        return message_key.replace(/[^a-zA-Z0-9-]/g, '');
     }
 }

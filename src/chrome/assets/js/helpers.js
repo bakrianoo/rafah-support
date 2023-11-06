@@ -107,7 +107,7 @@ class Helpers {
           console.log(...args);
           return;
     }
-
+    // function to escape special characters in a string
     static escapeRegExp(string) {
       // Use a RegExp to escape special characters for regular expression
       return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
