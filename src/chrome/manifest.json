@@ -14,7 +14,7 @@
       "48": "assets/images/logo-48.png",
       "128": "assets/images/logo-128.png"
     },
-    "permissions": ["storage"],
+    "permissions": ["storage", "tabs"],
     "content_scripts": [
       {
         "js": ["assets/js/constants.js", "assets/js/helpers.js","assets/js/chatting.js", "assets/js/live_support_contents.js"],
