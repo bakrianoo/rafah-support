@@ -64,18 +64,3 @@ window.onload = async function(){
 // run observer to check any changes in the url
 var lastUrl = null;
 CustomObservers.initObserver().observe(document, {subtree: true, childList: true});
-
-// new MutationObserver(async () => {
-//   const url = location.href;
-//   if (url !== lastUrl) {
-//     lastUrl = url;
-    
-//     if(Helpers.isTargetedURL(url)) {
-//         // launch the extension
-//         let _ = await launchExtension(url);
-//     }
-//   }
-// }).observe(document, {subtree: true, childList: true});
-
-
- 
