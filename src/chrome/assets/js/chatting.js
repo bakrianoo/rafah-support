@@ -46,6 +46,8 @@ class Chatttings {
         return null;
     }
 
+    // get vectara response
+
     // retrieve cached response from local storage
     static async  getCachedResponse(key){
         return localStorage.getItem(key);

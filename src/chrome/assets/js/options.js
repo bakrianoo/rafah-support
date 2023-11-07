@@ -12,6 +12,8 @@ const saveOptions = () => {
 
     // collect options inputs
     const vectara_api_key = document.getElementById('opt-vectara-api-key').value;
+    const opt_vectara_corpus_id = document.getElementById('opt-vectara-corpus-id').value;
+    const opt_vectara_customer_id = document.getElementById('opt-vectara-customer-id').value;
     const anyscale_api_key = document.getElementById('opt-anyscale-api-key').value;
     const anyscale_llm_model = document.getElementById('opt-anyscale-llm-model').value;
     const platform_url = document.getElementById('opt-platform-url').value;
@@ -25,6 +27,16 @@ const saveOptions = () => {
     // check if anyscale_api_key is empty
     if(anyscale_api_key == '') {
         errors.push('Anyscale API Key is required');
+    }
+
+    // check opt_vectara_corpus_id is empty
+    if(opt_vectara_corpus_id == '') {
+        errors.push('Vectara Corpus ID is required');
+    }
+
+    // check opt_vectara_customer_id is empty
+    if(opt_vectara_customer_id == '') {
+        errors.push('Vectara Customer ID is required');
     }
 
     // check if platform_url is empty or not a valid url
@@ -55,6 +67,8 @@ const saveOptions = () => {
         anyscale_llm_model: anyscale_llm_model,
         support_platform_app: opt_support_platform_app,
         platform_url: platform_url,
+        opt_vectara_corpus_id: opt_vectara_corpus_id,
+        opt_vectara_customer_id: opt_vectara_customer_id,
       },
       () => {
         // Update status to let user know options were saved.
@@ -78,6 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // get the vectara_api_key input
     const vectara_api_key = document.getElementById('opt-vectara-api-key');
+    const opt_vectara_corpus_id = document.getElementById('opt-vectara-corpus-id');
+    const opt_vectara_customer_id = document.getElementById('opt-vectara-customer-id');
     const anyscale_api_key = document.getElementById('opt-anyscale-api-key');
     const anyscale_llm_model = document.getElementById('opt-anyscale-llm-model');
     const platform_url = document.getElementById('opt-platform-url');
@@ -112,12 +128,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // get opt_vectara_customer_id from chrome storage
+    chrome.storage.sync.get('opt_vectara_customer_id', (data) => {
+        // check if vectara_api_key is not undefined
+        if(data.opt_vectara_customer_id != undefined) {
+            // set the vectara_api_key input value
+            opt_vectara_customer_id.value = data.opt_vectara_customer_id;
+        }
+    });
+
+    // get opt_vectara_corpus_id from chrome storage
+    chrome.storage.sync.get('opt_vectara_corpus_id', (data) => {
+        // check if vectara_api_key is not undefined
+        if(data.opt_vectara_corpus_id != undefined) {
+            // set the vectara_api_key input value
+            opt_vectara_corpus_id.value = data.opt_vectara_corpus_id;
+        }
+    });
+
     // get the platform_url from chrome storage
     chrome.storage.sync.get('platform_url', (data) => {
         // check if vectara_api_key is not undefined
         if(data.platform_url != undefined) {
             // set the vectara_api_key input value
-            document.getElementById('opt-platform-url').value = data.platform_url;
+            platform_url.value = data.platform_url;
         }
     });
 
@@ -126,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // check if vectara_api_key is not undefined
         if(data.support_platform_app != undefined) {
             // set the vectara_api_key input value
-            document.getElementById('opt-support-platform-app').value = data.support_platform_app;
+            opt_support_platform_app.value = data.support_platform_app;
         }
     });
 });
