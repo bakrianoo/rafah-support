@@ -171,7 +171,7 @@ class Chatttings {
         let response = null;
         if(requires_resources){ // it requires asking Vectara for resources
             let vectara_reponse = await this.get_vectara_response(message_text);
-            if(false && vectara_reponse['summary']){
+            if(vectara_reponse['summary']){
                 response = vectara_reponse['summary'];
                 console.log("response from summary:", response)
             } else if(vectara_reponse['responses'] && vectara_reponse['responses'].length > 0) {
