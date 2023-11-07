@@ -74,21 +74,21 @@ class Helpers {
           }
        });
 
-       // get opt-vectara-customer-id from chrome storage
-        chrome.storage.sync.get('opt-vectara-customer-id', (data) => {
+       // get opt_vectara_customer_id from chrome storage
+        chrome.storage.sync.get('opt_vectara_customer_id', (data) => {
           // check if vectara_api_key is not undefined
-          if(data['opt-vectara-customer-id'] != undefined) {
+          if(data['opt_vectara_customer_id'] != undefined) {
               // set the vectara_api_key input value
-              window.VECTARA_CUSTOMER_ID = data['opt-vectara-customer-id'];
+              window.VECTARA_CUSTOMER_ID = data['opt_vectara_customer_id'];
           }
         });
 
-        // get opt-vectara-corpus-id from chrome storage
-        chrome.storage.sync.get('opt-vectara-corpus-id', (data) => {
+        // get opt_vectara_corpus_id from chrome storage
+        chrome.storage.sync.get('opt_vectara_corpus_id', (data) => {
           // check if vectara_api_key is not undefined
-          if(data['opt-vectara-corpus-id'] != undefined) {
+          if(data['opt_vectara_corpus_id'] != undefined) {
               // set the vectara_api_key input value
-              window.VECTARA_CORPUS_ID = data['opt-vectara-corpus-id'];
+              window.VECTARA_CORPUS_ID = data['opt_vectara_corpus_id'];
           }
         });
 

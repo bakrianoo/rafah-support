@@ -3,6 +3,7 @@
 // Description: This file contains a set of configurations
 
 window.LOG_PREFIX = 'Rafah-Support';
+window.VECTARA_API_ENDPOINT = "https://api.vectara.io";
 window.ANYSCALE_API_ENDPOINT = 'https://api.endpoints.anyscale.com/v1';
 window.ANYSCALE_LLM_MODEL = 'mistralai/Mistral-7B-Instruct-v0.1';
 window.VECTARA_CUSTOMER_ID = '';

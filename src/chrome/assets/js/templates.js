@@ -89,7 +89,41 @@ class Templates {
         return messages;
     }
 
-    static async aiComposerTemplate(messages_elements, max_window_length = 6) {
+    static async aiComposerAugmentedTemplate(user_message, book_documents) {
+        
+        let documents = ["\n### Documents:\n"]
+        for(var x in book_documents){
+            documents.push(`\n### Document ${parseInt(x) + 1}:`)
+            documents.push(`${book_documents[x].text}`)
+        }
+
+        documents= documents.concat([
+            "\n### customer message:",
+            `${user_message}`,
+            "\n### Task Describtion:",
+            "Please provide an answer to the customer's message. Only provide one answer.",
+            "You must has good confident about the answer, or you can just say `Sorry, I don't know`.",
+            "\n### Answer:",
+            "\n\n"
+        ])
+
+        return [
+            {
+                "role": "system",
+                "content": [
+                    "You are a customer service agent who is trying to respond to a customer message.",
+                    "Next, you have multiple documents that you can use to generate the response.",
+                    "You have to generate only one appropriate response from the given documents.",
+                ].join("\n"),
+            },
+            {
+                "role": "user",
+                "content": documents.join('\n')
+            }
+        ]
+    }
+
+    static async aiComposerPlainTemplate(messages_elements, max_window_length = 6) {
 
         let messages = [
             {
@@ -123,57 +157,6 @@ class Templates {
         messages.push({"role": "user", "content": conversation.join('\n')});
         return messages;
     }
-
-    // static async isRequiringResourcesTemplate(user_message){
-
-    //     let messages = [
-
-    //         {
-    //             "role": "system",
-    //             "content": ["You are a machine learning model which classify a message to 0 or 1.",
-    //             "1 means that the customer support will need to look into some documents or resources to answer the question.",
-    //             "0 means that the customer support can answer the question without looking into any documents or resources.",
-    //             "Your answer is just 0 or 1"].join("\n")
-    //         },
-
-    //         {"role": "user", "content": "I hope you good day. good bye"},
-    //         {"role": "assistant", "content": "0"},
-
-    //         {"role": "user", "content": "where are your branches?"},
-    //         {"role": "assistant", "content": "1"},
-
-    //         {"role": "user", "content": "my phone shipped broken, I need my money back"},
-    //         {"role": "assistant", "content": "0"},
-
-    //         {"role": "user", "content": "what the fuck is this"},
-    //         {"role": "assistant", "content": "0"},
-
-    //         {"role": "user", "content": "tell me a joke"},
-    //         {"role": "assistant", "content": "0"},
-
-    //         {"role": "user", "content": "Do you have a 4GB mobile in your store?"},
-    //         {"role": "assistant", "content": "1"},
-
-    //         {"role": "user", "content": "Is there any color other than white for this laptop?"},
-    //         {"role": "assistant", "content": "1"},
-
-    //         {"role": "user", "content": "Can you provide more details about the material of the yoga mats listed on your website?"},
-    //         {"role": "assistant", "content": "1"},
-
-    //         {"role": "user", "content": "I've received a damaged speaker, and I would like to know what can be done about this."},
-    //         {"role": "assistant", "content": "1"},
-
-    //         {"role": "user", "content": "when was the company established"},
-    //         {"role": "assistant", "content": "1"},
-
-    //         {"role": "user", "content": "I placed an order last week and I haven't received a confirmation email, could you check my order status?"},
-    //         {"role": "assistant", "content": "1"},
-
-    //         {"role": "user", "content": `${user_message}`},
-    //     ]
-
-    //     return messages;
-    // }
 
     static async collectConversationMessages(messages_elements, max_window_length=null){
         // iterate over all messages dom element and push the conversation to the messages array

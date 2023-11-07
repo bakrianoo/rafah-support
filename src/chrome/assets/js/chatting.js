@@ -47,6 +47,71 @@ class Chatttings {
     }
 
     // get vectara response
+    static async get_vectara_response(user_message, max_results = 3){
+
+        if(!window.VECTARA_API_KEY || window.VECTARA_API_KEY == '' || !user_message || user_message.length == 0){
+            return null;
+        }
+
+        let headers = {
+            "customer-id": window.VECTARA_CUSTOMER_ID,
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "x-api-key": window.VECTARA_API_KEY, 
+        }
+
+        let query = {
+            "query": [
+              {
+                "query": user_message,
+                "start": 0,
+                "numResults": max_results,
+                "contextConfig": {
+                  "charsBefore": 0,
+                  "charsAfter": 0,
+                  "sentencesBefore": 0,
+                  "sentencesAfter": 1,
+                  "startTag": "",
+                  "endTag": ""
+                },
+                "corpusKey": [
+                  {
+                    "customerId": window.VECTARA_CUSTOMER_ID,
+                    "corpusId": 3,
+                    "semantics": "DEFAULT",
+                  }
+                ],
+                "summary": [
+                  {
+                    "summarizerPromptName": window.VECTARA_SUMMARY_MODE_ID,
+                    "maxSummarizedResults": max_results,
+                    "responseLang": "en"
+                  }
+                ]
+              }
+            ]
+          }
+
+          // send the request
+          let response = await axios.post(window.VECTARA_API_ENDPOINT + '/v1/query', query, {headers: headers});
+
+          if(response.status == 200 && response.data != undefined && response.data.responseSet != undefined){
+                let responses = response.data.responseSet[0].response;
+                let summary = null;
+
+                if(response.data.responseSet[0].summary && response.data.responseSet[0].summary[0].text &&
+                   response.data.responseSet[0].summary[0].text.length) {
+                    summary = response.data.responseSet[0].summary[0].text;
+                }
+
+                return {
+                    "responses": responses,
+                    "summary": summary,
+                }
+          }
+
+        return null;
+    }
 
     // retrieve cached response from local storage
     static async  getCachedResponse(key){
@@ -92,7 +157,7 @@ class Chatttings {
     }
 
     // compose response to a customer message
-    static async composeMessage(document, message_text, temperature = 0.5) {
+    static async composeMessage(document, message_text, requires_resources = false, temperature = 0.5) {
 
         Helpers.showLoaderSpinner(document);
 
@@ -103,8 +168,26 @@ class Chatttings {
             return null;
         }
 
-        let messages = await Templates.aiComposerTemplate(document.querySelectorAll('.message--read'));
-        let response = await this.get_anyscale_response(messages, temperature, true);
+        let response = null;
+        if(requires_resources){ // it requires asking Vectara for resources
+            let vectara_reponse = await this.get_vectara_response(message_text);
+            if(false && vectara_reponse['summary']){
+                response = vectara_reponse['summary'];
+                console.log("response from summary:", response)
+            } else if(vectara_reponse['responses'] && vectara_reponse['responses'].length > 0) {
+                // pass the message to anyscale with the documents
+                let messages = await Templates.aiComposerAugmentedTemplate(message_text, vectara_reponse['responses']);
+                response = await this.get_anyscale_response(messages, temperature, true);
+                console.log("response from docs:", response)
+                console.log("messages:", messages)
+            }
+        }
+
+        if(!response){
+            let messages = await Templates.aiComposerPlainTemplate(document.querySelectorAll('.message--read'));
+            response = await this.get_anyscale_response(messages, temperature, true);
+        }
+        
 
         if(!response || response.length == 0){
             Helpers.hideLoaderSpinner(document);
@@ -170,7 +253,7 @@ class Chatttings {
                     // append the button to the message
                     message_text.appendChild(button);
                     // add data-requires_resources attribute
-                    button.setAttribute('data-requires_resources', response.requires_resources);
+                    messages[x].setAttribute('data-requires_resources', response.requires_resources);
                 } else {
                     // set the button text
                     button.innerText = default_topic_name;

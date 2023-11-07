@@ -59,7 +59,7 @@ class CustomObservers {
                         console.log("current_element_id:", current_element_id, "window.LAST_MESSAGE_ID:", window.LAST_MESSAGE_ID)
 
                         // check if ai_composer_checkbox is checked and it's a new message
-                        if( ai_composer_checkbox && 
+                        if(     ai_composer_checkbox && 
                                 ai_composer_checkbox.checked &&
                                 mutations[i].addedNodes[j].classList && 
                                 mutations[i].addedNodes[j].classList.contains('left') &&
@@ -67,6 +67,13 @@ class CustomObservers {
                             ){
                             
                             let user_message = mutations[i].addedNodes[j].innerText;
+                            let requires_resources = false;
+
+                            // get button.topic-name-tag element in mutations[i].addedNodes[j]
+                            let requires_resources_value = mutations[i].addedNodes[j].getAttribute('data-requires_resources');
+                            if(requires_resources_value && requires_resources_value.length > 0 && requires_resources_value == '1'){
+                                requires_resources = true;
+                            }
                             
                             // remove some unwanted text from the message
                             let topic_buttons = document.querySelectorAll('button.topic-name-tag');
@@ -86,7 +93,7 @@ class CustomObservers {
                             }
 
                             // compose message
-                            let _ = await Chatttings.composeMessage(document, user_message.trim());
+                            let _ = await Chatttings.composeMessage(document, user_message.trim(), requires_resources);
 
                             window.LAST_MESSAGE_ID = current_element_id;
                         }
