@@ -180,7 +180,6 @@ class Chatttings {
         }
 
         let response = null;
-        console.log("requires_resources:", requires_resources)
         if(requires_resources){ // it requires asking Vectara for resources
             let vectara_reponse = await this.get_vectara_response(message_text);
 
@@ -313,8 +312,6 @@ class Chatttings {
 
         let messages = await Templates.isRequiringResourcesTemplate(user_message);
         let response = await this.get_anyscale_response(messages);
-
-        console.log("0-1 response:", response)
     }
 
     static async getMessageKey(tab_key, message_text){

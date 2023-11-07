@@ -59,8 +59,6 @@ class CustomObservers {
                             current_element_id = -100;
                         }
 
-                        console.log("current_element_id:", current_element_id, "window.LAST_MESSAGE_ID:", window.LAST_MESSAGE_ID)
-
                         // check if ai_composer_checkbox is checked and it's a new message
                         if(     ai_composer_checkbox && 
                                 ai_composer_checkbox.checked &&
