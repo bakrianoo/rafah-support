@@ -112,6 +112,61 @@ class Helpers {
       // Use a RegExp to escape special characters for regular expression
       return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
+
+    // function to add full page loader to the document
+    static appendPageLoader(document) {
+      let loader_html = `
+          <div class="loader">
+              <img src="https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif" alt="Rafah Support..." />
+              <p class="loader-message">Please wait, Rafah is preparing the content...</p>
+              <span class="close-spinner">X</span>
+          </div>
+      `;
+
+      let loader = document.createElement('div');
+      loader.classList.add('loader-container');
+      loader.innerHTML = loader_html;
+
+      // add onclick event to the close spinner button
+      loader.querySelector('.close-spinner').addEventListener('click', function(){
+        // hide the loader
+        Helpers.hideLoaderSpinner(document);
+      });
+
+      // append loader to the document <body> tag in the start
+      let body = document.querySelector('body');
+      body.insertBefore(loader, body.firstChild);
+    }
+
+    // toggle loader spinner
+    static toggleLoaderSpinner(document) {
+      // toggle the display of the loader to be none or flex
+      document.querySelector('.loader-container').style.display = loader.style.display == 'none' ? 'flex' : 'none';
+    }
+
+    // hide loader spinner
+    static hideLoaderSpinner(document) {
+      document.querySelector('.loader-container').style.display = 'none';
+    }
+
+    // show loader spinner
+    static showLoaderSpinner(document) {
+      document.querySelector('.loader-container').style.display = 'flex';
+    }
+
+    // get the tab key
+    static getTabKey(document) {
+
+      let conversation_id_key_selector = ".button__content span.leading-tight"
+
+      if(document.querySelector(conversation_id_key_selector)){
+          let tab_key = document.querySelector(conversation_id_key_selector).innerText;
+          // remove all spaces from the key
+          return tab_key.replace(/\s/g, '');
+      }
+
+      return null;
+    }
 }
 
 

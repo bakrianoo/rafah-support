@@ -18,8 +18,9 @@
     "content_scripts": [
       {
         "js": [
-                "assets/js/axios.min.js","assets/js/constants.js", "assets/js/helpers.js", "assets/js/templates.js",
-                "assets/js/chatting.js", "assets/js/live_support_contents.js"
+                "assets/js/axios.min.js","assets/js/constants.js", "assets/js/helpers.js", "assets/js/observers.js",
+                "assets/js/custom_elements.js", "assets/js/templates.js", "assets/js/chatting.js", 
+                "assets/js/live_support_contents.js"
               ],
         "css": ["assets/style/content.css"],
         "matches": [

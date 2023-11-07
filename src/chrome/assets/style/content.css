@@ -14,3 +14,50 @@ div.text-content p {
 .message--read .is-text {
     min-width: 480px !important;
 }
+
+.summary-button {
+    width: 75px !important;
+    background-color: #86b576 !important;
+    color: #fff !important;
+}
+
+/* START PAGE LOADER */
+/* Ensure that the loader covers the entire page */
+.loader-container {
+    position: fixed; /* or 'absolute' if you want it to scroll with the page */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7); /* semi-transparent white background */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* high z-index to ensure it is above other content */
+}
+
+.loader {
+    text-align: center;
+}
+
+.loader img {
+    /* You can define a specific width and height if required */
+    width: 40px; /* Example size, adjust as needed */
+    height: auto;
+}
+
+.loader-message {
+    margin-top: 20px; /* Spacing between the GIF and the message */
+    font-size: 1em;
+    font-weight: bold;
+    color: #333;
+}
+
+.close-spinner {
+    margin-top: 40px;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    padding: 2px;
+    cursor: pointer;
+}
+/* END PAGE LOADER */

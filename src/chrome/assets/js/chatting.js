@@ -3,21 +3,15 @@
 // Description: This file is responsible for the chatting functionality
 
 class Chatttings {
-
-    // function to get the summary
-    static getSummary() {
-        console.log(LOG_PREFIX + 'Preparing the summary...');
-    }
-
     // get anyscale LLM response
-    static async get_anyscale_response(messages){
+    static async get_anyscale_response(messages, temperature = null){
 
         const url = window.ANYSCALE_API_ENDPOINT + '/chat/completions';
 
         const payload = {
             "model": (window.anyscale_llm_model != undefined) ? window.anyscale_llm_model : window.ANYSCALE_LLM_MODEL,
             "messages": messages,
-            "temperature": window.ANYSCALE_LLM_TEMPERATURE
+            "temperature": (temperature != null) ? temperature : window.ANYSCALE_LLM_TEMPERATURE,
         };
 
         const headers = {
@@ -45,6 +39,37 @@ class Chatttings {
         // store the response in the local storage
         localStorage.setItem(key, response);
         return true;
+    }
+
+    // function to get the summary
+    static async getSummary(document, temperature = 0.7) {
+        
+        Helpers.showLoaderSpinner(document);
+
+        // get the messages list
+        let messages_list = document.querySelector('ul.conversation-panel');
+        if(!messages_list){
+            Helpers.hideLoaderSpinner(document);
+            return null;
+        }
+
+        let messages = Templates.summarizationTemplate(document.querySelectorAll('.message--read'));
+        let response = await this.get_anyscale_response(messages, temperature);
+
+        if(!response || response.length == 0){
+            Helpers.hideLoaderSpinner(document);
+            return null;
+        }
+        
+        let new_message_element = CustomElements.getSummaryElement(response);
+
+        // append the new message to the messages list
+        messages_list.appendChild(new_message_element);
+
+        // scroll to the new message
+        new_message_element.scrollIntoView();
+
+        Helpers.hideLoaderSpinner(document);
     }
 
     // function to generate topic modeling of messages

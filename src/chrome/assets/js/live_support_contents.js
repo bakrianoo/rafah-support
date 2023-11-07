@@ -6,50 +6,24 @@
 var messages_queue = [];
 
 // new message observer
-var messages_observer = new MutationObserver(async function(mutations) {
-    // iterate over all mutations
-    // check if the mutation is for new node added with class = '.message--read'
-    for (var i = 0; i < mutations.length; i++) {
-        for (var j = 0; j < mutations[i].addedNodes.length; j++) {
-            if(mutations[i].addedNodes[j].classList && mutations[i].addedNodes[j].classList.contains('message--read')){
-                console.log('New message added');
-                // get key for the current tab_url
-                let tab_key = null;
-
-                let conversation_id_key_selector = ".button__content span.leading-tight"
-                if(document.querySelector(conversation_id_key_selector)){
-                    tab_key = document.querySelector(conversation_id_key_selector).innerText;
-                    // remove all spaces from the key
-                    tab_key = tab_key.replace(/\s/g, '');
-                }
-
-                // collect all elements of .message--read
-                // let all_messages = document.querySelectorAll('.message--read');
-
-                let _ = await Chatttings.getMessagesTopicModeling([mutations[i].addedNodes[j]], tab_key)
-            }
-        }
-    }
- });
+var messages_observer = CustomObservers.newElementsObserver();
 
 // wait until page is loaded
 async function launchExtension(tab_url){
 
+    // welcome message
     Helpers.rlog('Starting in:', tab_url);
 
-    // get key for the current tab_url
-    let tab_key = null;
+    // append page loader
+    Helpers.appendPageLoader(document);
 
-    let conversation_id_key_selector = ".button__content span.leading-tight"
-    if(document.querySelector(conversation_id_key_selector)){
-        tab_key = document.querySelector(conversation_id_key_selector).innerText;
-        // remove all spaces from the key
-        tab_key = tab_key.replace(/\s/g, '');
-    }
+    // get key for the current tab_url
+    let tab_key = Helpers.getTabKey(document);
 
     // collect all elements of .message--read
     let all_messages = document.querySelectorAll('.message--read');
 
+    // run topic modeling on all messages
     let _ = await Chatttings.getMessagesTopicModeling(all_messages, tab_key)
 
     // get panel-footer controllers buttons
@@ -61,24 +35,14 @@ async function launchExtension(tab_url){
         return;
     }
 
-    // chat box controllers
+    // get chat box controllers
     let controllers = document.querySelector(controllers_selector);
 
-    // append summary button to the controllers
-    let summary_button_html = `<button data-v-5b769a38="" type="submit" class="button smooth button--only-icon small secondary has-tooltip" data-original-title="Show emoji selector">Summary</button>`;
-    let summary_button = document.createElement('button');
-    summary_button.innerHTML = summary_button_html;
-
-    // add event listener to the button
-    summary_button.addEventListener('click', function() {
-        Chatttings.get_anyscale_response();
-    });
-
-    // append summary button to the controllers
-    controllers.appendChild(summary_button);
+    // append new elements to the controllers
+    // 1. summary button
+    CustomElements.addSummaryButton(document, controllers);
 
     // run observer to check any changes in the messages
-     
     messages_observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});
 }
 
@@ -93,23 +57,25 @@ window.onload = async function(){
             // launch the extension
             let _ = await launchExtension(location.href);
         }
-    }, 3000);
+    }, 2000);
 }
 
 
 // run observer to check any changes in the url
 var lastUrl = null;
-new MutationObserver(async () => {
-  const url = location.href;
-  if (url !== lastUrl) {
-    lastUrl = url;
+CustomObservers.initObserver().observe(document, {subtree: true, childList: true});
+
+// new MutationObserver(async () => {
+//   const url = location.href;
+//   if (url !== lastUrl) {
+//     lastUrl = url;
     
-    if(Helpers.isTargetedURL(url)) {
-        // launch the extension
-        let _ = await launchExtension(url);
-    }
-  }
-}).observe(document, {subtree: true, childList: true});
+//     if(Helpers.isTargetedURL(url)) {
+//         // launch the extension
+//         let _ = await launchExtension(url);
+//     }
+//   }
+// }).observe(document, {subtree: true, childList: true});
 
 
  
