@@ -213,7 +213,7 @@ class Chatttings {
             // compose the answer message
             if(vectara_reponse['summary']){
                 // vectara has a summary
-                response = vectara_reponse['summary'];
+                response = await Helpers.cleanVectaraResponses(vectara_reponse['summary']);
             } else if(vectara_reponse['responses'] && vectara_reponse['responses'].length > 0) {
                 // pass the message to anyscale with the documents
                 let messages = await Templates.aiComposerAugmentedTemplate(message_text, vectara_reponse['responses']);

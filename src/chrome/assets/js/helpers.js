@@ -231,6 +231,14 @@ class Helpers {
       // lower case the key
       return message_text.replace(/\s/g, '').toLowerCase();
     }
+
+    // clean vectara reponses
+    static async cleanVectaraResponses(response_text) {
+      // clean any number between [] from the response, like [3]
+      response_text = response_text.replace(/\[\d+\]/g, '');
+
+      return response_text.trim();
+    }
 }
 
 

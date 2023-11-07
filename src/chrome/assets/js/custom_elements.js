@@ -117,7 +117,7 @@ class CustomElements {
                 meta_data += `<td>${elements[x].metadata[e].value}</td>`; 
             }
 
-            docs_html += `<p class='vectara-doc-text'>${elements[x].text}</p>`
+            docs_html += `<p class='vectara-doc-text'>`+await Helpers.cleanVectaraResponses(elements[x].text)+`</p>`
             if(meta_header.length > 0){
                 docs_html += `<table class='vectara-doc-meta'><tr>${meta_header}</tr><tr>${meta_data}</tr></table>`
             }

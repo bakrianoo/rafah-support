@@ -42,12 +42,13 @@ div.text-content p {
 .vectara-doc-text {
     font-size: 18px;
     border: 2px dotted;
-    padding: 10px;
-    background-color: #eee;
     width: 80%;
     text-align: center;
     margin-left: 10%;
     line-height: 35px;
+    background-color: #f0faf4;
+    padding: 30px;
+    text-align: left;
 }
 
 .vectara-doc-meta {
@@ -108,7 +109,10 @@ div.text-content p {
     border-radius: 15px;
     padding: 2px;
     cursor: pointer;
+    font-size: 25px;
+    color: #c783ad;
 }
+
 /* END PAGE LOADER */
 
 /* START AI COMPOSER SWITCH */
