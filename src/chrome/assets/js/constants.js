@@ -10,3 +10,4 @@ window.ANYSCALE_API_KEY = '';
 window.ANYSCALE_LLM_TEMPERATURE = 0.6;
 window.DEFAULT_PLATFORM = 'chatwoot';
 window.PLATFORM_URL = '';
+window.LAST_MESSAGE_ID = -1;

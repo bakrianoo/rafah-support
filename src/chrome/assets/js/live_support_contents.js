@@ -22,6 +22,21 @@ async function launchExtension(tab_url){
 
     // collect all elements of .message--read
     let all_messages = document.querySelectorAll('.message--read');
+    if(all_messages == null || all_messages.length > 0){
+        // store last message id
+        window.LAST_MESSAGE_ID = all_messages[all_messages.length - 1].id;
+        
+        if(window.LAST_MESSAGE_ID){
+            // extract the number from the id
+            window.LAST_MESSAGE_ID = window.LAST_MESSAGE_ID.replace(/\D/g,'');
+        }
+
+        if(window.LAST_MESSAGE_ID && !isNaN(window.LAST_MESSAGE_ID)){
+            window.LAST_MESSAGE_ID = parseInt(window.LAST_MESSAGE_ID);
+        } else {
+            window.LAST_MESSAGE_ID = -1;
+        }
+    }
 
     // run topic modeling on all messages
     let _ = await Chatttings.getMessagesTopicModeling(all_messages, tab_key)
@@ -41,6 +56,9 @@ async function launchExtension(tab_url){
     // append new elements to the controllers
     // 1. summary button
     CustomElements.addSummaryButton(document, controllers);
+
+    // 2. AI Composer Switch
+    CustomElements.addAIComposerSwitchElement(document, controllers);
 
     // run observer to check any changes in the messages
     messages_observer.observe(document, {attributes: false, childList: true, characterData: false, subtree:true});

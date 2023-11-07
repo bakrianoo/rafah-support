@@ -4,7 +4,7 @@
 
 class Chatttings {
     // get anyscale LLM response
-    static async get_anyscale_response(messages, temperature = null){
+    static async get_anyscale_response(messages, temperature = null, cut_intro=false){
 
         const url = window.ANYSCALE_API_ENDPOINT + '/chat/completions';
 
@@ -23,7 +23,24 @@ class Chatttings {
         let response = await axios.post(url, payload, {headers: headers})
 
         if(response.status == 200 && response.data != undefined && response.data.choices != undefined){
-            return response.data.choices[0].message.content;
+            let cleaned_message = response.data.choices[0].message.content;
+
+            if(cut_intro){
+                // split by \n\n
+                let split_message = cleaned_message.split('\n\n');
+                if(split_message.length > 1){
+                    // remove the first element
+                    split_message.shift();
+                    // join the array again
+                    cleaned_message = split_message.join('\n\n').trim();
+                }
+            }
+
+            // remove any " in the beginning and end of the message
+            cleaned_message = cleaned_message.replace(/^"/g, "");
+            cleaned_message = cleaned_message.replace(/"$/g, "");
+
+            return cleaned_message.trim();
         }
 
         return null;
@@ -53,7 +70,7 @@ class Chatttings {
             return null;
         }
 
-        let messages = Templates.summarizationTemplate(document.querySelectorAll('.message--read'));
+        let messages = await Templates.summarizationTemplate(document.querySelectorAll('.message--read'));
         let response = await this.get_anyscale_response(messages, temperature);
 
         if(!response || response.length == 0){
@@ -69,6 +86,34 @@ class Chatttings {
         // scroll to the new message
         new_message_element.scrollIntoView();
 
+        Helpers.hideLoaderSpinner(document);
+    }
+
+    // compose response to a customer message
+    static async composeMessage(document, message_text, temperature = 0.5) {
+
+        Helpers.showLoaderSpinner(document);
+
+        // get the messages list
+        let messages_list = document.querySelector('ul.conversation-panel');
+        if(!messages_list){
+            Helpers.hideLoaderSpinner(document);
+            return null;
+        }
+
+        let messages = await Templates.aiComposerTemplate(document.querySelectorAll('.message--read'));
+        let response = await this.get_anyscale_response(messages, temperature, true);
+
+        if(!response || response.length == 0){
+            Helpers.hideLoaderSpinner(document);
+            return null;
+        }
+
+        // get div.ProseMirror-woot-style element
+        let composer = document.querySelector('div.ProseMirror-woot-style');
+
+        // set the inner text of the composer
+        composer.innerText = response.trim();
         Helpers.hideLoaderSpinner(document);
     }
 
@@ -94,6 +139,21 @@ class Chatttings {
 
                     // store the response in the local storage
                     let _ = await this.storeResponse(message_key, response);
+                    
+                    // parse the json reponse
+                    try{
+                        response = JSON.parse(response.trim());
+                    } catch(e){
+                        console.log("Error parsing response:", response)
+                        continue;
+                    }
+                } else {
+                    try{
+                        response = JSON.parse(response.trim());
+                    } catch(e){
+                        console.log("Error parsing response:", response)
+                        continue;
+                    }
                 }
 
                 // create button element
@@ -102,11 +162,13 @@ class Chatttings {
                 button.classList.add('button');
 
                 // if response not empty and the strip only contains one word
-                if(response != null && response.trim().split(' ').length == 1){
+                if(response != null && response.topic && response.topic.length > 0){
                     // set the button text
-                    button.innerText = response.trim();
+                    button.innerText = response.topic.trim();
                     // append the button to the message
                     message_text.appendChild(button);
+                    // add data-requires_resources attribute
+                    button.setAttribute('data-requires_resources', response.requires_resources);
                 } else {
                     // set the button text
                     button.innerText = default_topic_name;
@@ -115,6 +177,14 @@ class Chatttings {
                 }
             }  
         }
+    }
+
+    static async isRequiringResources(user_message){
+
+        let messages = await Templates.isRequiringResourcesTemplate(user_message);
+        let response = await this.get_anyscale_response(messages);
+
+        console.log("0-1 response:", response)
     }
 
     static async getMessageKey(tab_key, message_text){
