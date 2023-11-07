@@ -43,6 +43,12 @@ class Templates {
             {"role": "user", "content": "My laptop has been overheating, can you help me troubleshoot this issue?"},
             {"role": "assistant", "content":'{"topic": "product-complaint", "requires_resources": 1}'},
 
+            {"role": "user", "content": "do you sell iphone cover case?"},
+            {"role": "assistant", "content": '{"topic": "product-search", "requires_resources": 1}'},
+
+            {"role": "user", "content": "I am looking for an affordable camera"},
+            {"role": "assistant", "content": '{"topic": "product-search", "requires_resources": 1}'},
+
             {"role": "user", "content": "I placed an order last week and I haven't received a confirmation email, could you check my order status?"},
             {"role": "assistant", "content": '{"topic": "order-inquiry", "requires_resources": 1}'},
 

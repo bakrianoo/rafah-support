@@ -1,3 +1,4 @@
+/* START CUSTOM ELEMENTS */
 .topic-name-tag {
     font-size: 10px !important;
     height: 22px !important;
@@ -32,19 +33,57 @@ div.text-content p {
     color: #fffdfd;
 }
 
+.vectara-docs-btn {
+    font-size: 20px;
+    color: #258e3c;
+    cursor: pointer;
+}
+
+.vectara-doc-text {
+    font-size: 18px;
+    border: 2px dotted;
+    padding: 10px;
+    background-color: #eee;
+    width: 80%;
+    text-align: center;
+    margin-left: 10%;
+    line-height: 35px;
+}
+
+.vectara-doc-meta {
+  width: 70%;
+  margin-left: 15%;
+  border: 3px solid #000;
+  text-align: left;
+}
+
+.vectara-doc-meta th, .vectara-doc-meta td {
+  padding: 5px;
+  border: 3px solid #000;
+}
+
+.vectara-doc-meta th {
+  background-color: #ccc;
+}
+
+/* END CUSTOM ELEMENTS */
+
 /* START PAGE LOADER */
-/* Ensure that the loader covers the entire page */
-.loader-container {
-    position: fixed; /* or 'absolute' if you want it to scroll with the page */
+.loader-container, .preview-container {
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.7); /* semi-transparent white background */
+    background-color: rgba(255, 255, 255, 0.7);
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* high z-index to ensure it is above other content */
+    z-index: 1000;
+}
+
+.preview-container {
+  background-color: rgba(255, 255, 255, 0.95);
 }
 
 .loader {
@@ -52,19 +91,18 @@ div.text-content p {
 }
 
 .loader img {
-    /* You can define a specific width and height if required */
-    width: 40px; /* Example size, adjust as needed */
+    width: 40px;
     height: auto;
 }
 
 .loader-message {
-    margin-top: 20px; /* Spacing between the GIF and the message */
+    margin-top: 20px;
     font-size: 1em;
     font-weight: bold;
     color: #333;
 }
 
-.close-spinner {
+.close-spinner, .close-previewer {
     margin-top: 40px;
     border: 1px solid #eee;
     border-radius: 15px;

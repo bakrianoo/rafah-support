@@ -49,6 +49,12 @@ class Chatttings {
     // get vectara response
     static async get_vectara_response(user_message, max_results = 3){
 
+        let cached_message_key = await Helpers.getMessageKey(user_message);
+        let cached_response = localStorage.getItem(cached_message_key);
+        if(cached_response){
+            return JSON.parse(cached_response);
+        }
+
         if(!window.VECTARA_API_KEY || window.VECTARA_API_KEY == '' || !user_message || user_message.length == 0){
             return null;
         }
@@ -104,10 +110,15 @@ class Chatttings {
                     summary = response.data.responseSet[0].summary[0].text;
                 }
 
-                return {
+                let response_obj = {
                     "responses": responses,
                     "summary": summary,
                 }
+
+                // store the response in the local storage
+                localStorage.setItem(cached_message_key, JSON.stringify(response_obj));
+
+                return response_obj;
           }
 
         return null;
@@ -157,7 +168,7 @@ class Chatttings {
     }
 
     // compose response to a customer message
-    static async composeMessage(document, message_text, requires_resources = false, temperature = 0.5) {
+    static async composeMessage(document, message_text, requires_resources = false, targeted_element = null, temperature = 0.5) {
 
         Helpers.showLoaderSpinner(document);
 
@@ -169,17 +180,44 @@ class Chatttings {
         }
 
         let response = null;
+        console.log("requires_resources:", requires_resources)
         if(requires_resources){ // it requires asking Vectara for resources
             let vectara_reponse = await this.get_vectara_response(message_text);
+
+            // append icon to preview the docs results
+            if(vectara_reponse['responses'] && vectara_reponse['responses'].length > 0) {
+                
+                // get .preview-container .loader element
+                let doc_previewer_element = document.querySelector('.preview-container .loader .vertica-docs-list');
+                if(doc_previewer_element){
+
+                    let docs_html = await CustomElements.getSearchDocsHTML(vectara_reponse['responses']);
+
+                    // append the docs html to the doc_previewer_element
+                    doc_previewer_element.innerHTML = docs_html;
+
+                    // create span element
+                    let span = await CustomElements.getIconPreview();
+                    // add onclick event to the span
+                    span.addEventListener('click', function(){
+                        Helpers.showDocsPreviewer(document);
+                    })
+
+                    // append the span to the targeted_element
+                    targeted_element.appendChild(span);
+                }
+
+                
+            }
+
+            // compose the answer message
             if(vectara_reponse['summary']){
+                // vectara has a summary
                 response = vectara_reponse['summary'];
-                console.log("response from summary:", response)
             } else if(vectara_reponse['responses'] && vectara_reponse['responses'].length > 0) {
                 // pass the message to anyscale with the documents
                 let messages = await Templates.aiComposerAugmentedTemplate(message_text, vectara_reponse['responses']);
                 response = await this.get_anyscale_response(messages, temperature, true);
-                console.log("response from docs:", response)
-                console.log("messages:", messages)
             }
         }
 
@@ -246,10 +284,17 @@ class Chatttings {
                 button.classList.add('topic-name-tag');
                 button.classList.add('button');
 
+                // check if any prev inserted button with .topic-name-tag class, remove it
+                let prev_button = messages[x].querySelector('button.topic-name-tag');
+                if(prev_button){
+                    prev_button.remove();
+                }
+
                 // if response not empty and the strip only contains one word
                 if(response != null && response.topic && response.topic.length > 0){
                     // set the button text
                     button.innerText = response.topic.trim();
+                    
                     // append the button to the message
                     message_text.appendChild(button);
                     // add data-requires_resources attribute

@@ -97,4 +97,41 @@ class CustomElements {
 
         return;
     }
+
+    static async getSearchDocsHTML(elements){
+        let docs_html = '';
+        
+        let excelude_metas = ['len', 'offset', 'section', 'is_title', 'title_level']
+
+        for(var x in elements){
+
+            let meta_header = '';
+            let meta_data = '';
+
+            for(var e in elements[x].metadata){
+                if(excelude_metas.includes(elements[x].metadata[e].name)){
+                    continue;
+                }
+
+                meta_header += `<th>${elements[x].metadata[e].name}</th>`;
+                meta_data += `<td>${elements[x].metadata[e].value}</td>`; 
+            }
+
+            docs_html += `<p class='vectara-doc-text'>${elements[x].text}</p>`
+            if(meta_header.length > 0){
+                docs_html += `<table class='vectara-doc-meta'><tr>${meta_header}</tr><tr>${meta_data}</tr></table>`
+            }
+        }
+
+        return docs_html;
+    }
+
+    static async getIconPreview(){
+        let span = document.createElement('span');
+        span.classList.add('rafah-element');
+        span.classList.add('vectara-docs-btn');
+        span.innerText = '🗎';
+
+        return span;
+    }
 }

@@ -17,6 +17,9 @@ async function launchExtension(tab_url){
     // append page loader
     Helpers.appendPageLoader(document);
 
+    // append document viewer
+    Helpers.appendDocsViewer(document);
+
     // get key for the current tab_url
     let tab_key = Helpers.getTabKey(document);
 

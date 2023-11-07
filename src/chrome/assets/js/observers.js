@@ -21,6 +21,9 @@ class CustomObservers {
         return new MutationObserver(async function(mutations) {
             // iterate over all mutations
             // check if the mutation is for new node added with class = '.message--read'
+
+            
+            
             for (var i = 0; i < mutations.length; i++) {
                 for (var j = 0; j < mutations[i].addedNodes.length; j++) {
                     if(mutations[i].addedNodes[j].classList && mutations[i].addedNodes[j].classList.contains('message--read')){
@@ -93,7 +96,7 @@ class CustomObservers {
                             }
 
                             // compose message
-                            let _ = await Chatttings.composeMessage(document, user_message.trim(), requires_resources);
+                            let _ = await Chatttings.composeMessage(document, user_message.trim(), requires_resources, mutations[i].addedNodes[j]);
 
                             window.LAST_MESSAGE_ID = current_element_id;
                         }

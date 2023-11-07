@@ -156,6 +156,30 @@ class Helpers {
       body.insertBefore(loader, body.firstChild);
     }
 
+    // function to add full page overlay to preview the documents
+    static appendDocsViewer(document) {
+      let loader_html = `
+          <div class="loader">
+              <div class="vertica-docs-list"></div>
+              <span class="close-previewer">X</span>
+          </div>
+      `;
+
+      let loader = document.createElement('div');
+      loader.classList.add('preview-container');
+      loader.innerHTML = loader_html;
+
+      // add onclick event to the close spinner button
+      loader.querySelector('.close-previewer').addEventListener('click', function(){
+        // hide the loader
+        Helpers.hideDocsPreviewer(document);
+      });
+
+      // append loader to the document <body> tag in the start
+      let body = document.querySelector('body');
+      body.insertBefore(loader, body.firstChild);
+    }
+
     // toggle loader spinner
     static toggleLoaderSpinner(document) {
       // toggle the display of the loader to be none or flex
@@ -172,6 +196,16 @@ class Helpers {
       document.querySelector('.loader-container').style.display = 'flex';
     }
 
+    // hide docs previewer
+    static hideDocsPreviewer(document) {
+      document.querySelector('.preview-container').style.display = 'none';
+    }
+
+    // show docs previewer
+    static showDocsPreviewer(document) {
+      document.querySelector('.preview-container').style.display = 'flex';
+    }
+
     // get the tab key
     static getTabKey(document) {
 
@@ -184,6 +218,18 @@ class Helpers {
       }
 
       return null;
+    }
+
+    // get message key
+    static async getMessageKey(message_text) {
+      // remove all spaces from the key
+      message_text = message_text.replace(/\s/g, '');
+
+      // remove any special characters
+      message_text = message_text.replace(/[^\w\s]/gi, '');
+
+      // lower case the key
+      return message_text.replace(/\s/g, '').toLowerCase();
     }
 }
 
