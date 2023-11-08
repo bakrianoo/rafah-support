@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rafah</title>
+    <link rel="stylesheet" href="assets/style/bulma.min.css">
+    <link rel="stylesheet" href="assets/style/options.css">
+    
+  </head>
+  <body>
+  <section class="section">
+    <div class="container">
+      <h1 class="title">
+         <img src="assets/images/logo-64.png" alt="Rafah Logo" width="50" height="50"> Rafah Options
+      </h1>
+
+      <div class="box">
+
+        <div class="field">
+            <label class="label">Platform</label>
+            <div class="control">
+                <div class="select">
+                <select id="opt-support-platform-app">
+                    <option value="chatwoot">ChatWoot</option>
+                </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Platform URL</label>
+            <div class="control">
+              <input name="opt-platform-url" id="opt-platform-url" class="input" type="text" placeholder="https://chatwoot.com">
+            </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Vectara Customer ID</label>
+          <div class="control">
+            <input name="opt-vectara-customer-id" id="opt-vectara-customer-id" class="input" type="text" placeholder="132456">
+          </div>
+        </div>
+
+        <!-- vectara corpus ID -->
+        <div class="field">
+          <label class="label">Vectara Corpus ID</label>
+          <div class="control">
+            <input name="opt-vectara-corpus-id" id="opt-vectara-corpus-id" class="input" type="text" placeholder="1">
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Vectara API Key</label>
+          <div class="control">
+            <input name="opt-vectara-api-key" id="opt-vectara-api-key" class="input" type="password" placeholder="*****">
+          </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Anyscale API Key</label>
+            <div class="control">
+              <input name="opt-anyscale-api-key" id="opt-anyscale-api-key" class="input" type="password" placeholder="*****">
+            </div>
+        </div>
+
+        <!-- select input -->
+        <div class="field">
+            <label class="label">Anyscale LLM Model</label>
+            <div class="control">
+                <div class="select">
+                <select name="opt-anyscale-llm-model" id="opt-anyscale-llm-model">
+                    <option value="mistralai/Mistral-7B-Instruct-v0.1">mistral-7b</option>
+                    <option value="meta-llama/Llama-2-7b-chat-hf">llama-7b</option>
+                    <option value="meta-llama/Llama-2-13b-chat-hf">llama-13b</option>
+                </select>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- submit button -->
+        <div class="field">
+          <div class="control">
+            <button class="button is-link" id="save-options-btn">Save</button>
+          </div>
+        </div>
+
+        <!-- notification messages -->
+        <section class="warning-section">
+            <div class="notification is-danger"></div>
+        </section>
+        <section class="success-section">
+            <div class="notification is-success"></div>
+        </section>
+    </div>
+
+    </div>
+  </section>
+
+    <!-- scripts -->
+    <script src="assets/js/helpers.js"></script>
+    <script src="assets/js/options.js"></script>
+  </body>
+</html>

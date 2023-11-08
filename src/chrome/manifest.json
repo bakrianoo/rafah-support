@@ -1,0 +1,34 @@
+{
+    "name": "Rafah Support",
+    "description": "An AI Digital Assistant Extension for Helping the Customer Support Agents.",
+    "version": "0.1",
+    "manifest_version": 3,
+    "options_page": "options.html",
+    "action": {
+      "default_popup": "index.html",
+      "default_icon": "assets/images/logo-128.png"
+    },
+    "icons": {
+      "16": "assets/images/logo-16.png",
+      "32": "assets/images/logo-32.png",
+      "48": "assets/images/logo-48.png",
+      "128": "assets/images/logo-128.png"
+    },
+    "permissions": ["storage", "tabs"],
+    "content_scripts": [
+      {
+        "js": [
+                "assets/js/axios.min.js","assets/js/constants.js", "assets/js/helpers.js", "assets/js/observers.js",
+                "assets/js/custom_elements.js", "assets/js/templates.js", "assets/js/chatting.js", 
+                "assets/js/live_support_contents.js"
+              ],
+        "css": ["assets/style/content.css"],
+        "matches": [
+          "http://*:*/*",
+          "http://*/*",
+          "https://*:*/*",
+          "https://*/*"
+        ]
+      }
+    ]
+  }
