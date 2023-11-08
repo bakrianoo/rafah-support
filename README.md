@@ -38,7 +38,7 @@ Rafah is a browser extension that seamlessly injects state-of-the-art AI feature
 #### 🔧 Installation
 
 
-1. Download the Rafah extension [packed file](./src/chrome/chrome.crx).
+1. Download the Rafah project [zip file](https://github.com/bakrianoo/rafah-support/archive/refs/heads/main.zip). Extract it to a folder.
    
 2. Open the [Chrome extensions](chrome://extensions) page. (`Run with Edge browsers too`)
    
@@ -47,7 +47,12 @@ Rafah is a browser extension that seamlessly injects state-of-the-art AI feature
 <p align="center">
     <img src="./assets/images/guide-1.png"/>
 </p>
-4. Drag and drop the downloaded file into the extensions page.
+
+4. Click on load unpacked button, and select the `src/chrome` folder from the extracted zip file.
+
+<p align="center">
+    <img src="./assets/images/guide-8.png"/>
+</p>
 
 5. Now you can see the Rafah extension in the extensions list.
 
@@ -111,7 +116,7 @@ Password: ##Agent-user-1##
 <body>
         <script>
             (function(d,t) {
-                var BASE_URL="http://18.246.215.101:3000";
+                var BASE_URL="http://18.236.158.230:3000";
                 var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
                 g.src=BASE_URL+"/packs/js/sdk.js";
                 g.defer = true;
@@ -129,7 +134,7 @@ Password: ##Agent-user-1##
 </html>
 ```
 
-4. You will need in the extension options page to set the `Platform URL` value to `http://18.246.215.101:3000`
+4. You will need in the extension options page to set the `Platform URL` value to `http://18.236.158.230:3000`
 
 5. Open the HTML page in the browser, and start chatting with the bot.
 
