@@ -35,6 +35,16 @@ Rafah is a browser extension that seamlessly injects state-of-the-art AI feature
 
 ### 🚀 Getting Started
 
+### 💡 Before you start
+
+1. Check the [Getting Started](https://docs.vectara.com/docs/quickstart) documentation for Vectara to start a new corpus.
+
+2. You can use the demo data [here](./assets/demo-data/)
+
+3. Create a new Vectara [API Access](https://docs.vectara.com/docs/console-ui/manage-api-access)
+
+4. Register an account in [Anyscale](https://docs.anyscale.com/) and get your API key.
+
 #### 🔧 Installation
 
 
@@ -66,15 +76,7 @@ Rafah is a browser extension that seamlessly injects state-of-the-art AI feature
     <img src="./assets/images/guide-3.png"/>
 </p>
 
-### 💡 Before you start
 
-1. Check the [Getting Started](https://docs.vectara.com/docs/quickstart) documentation for Vectara to start a new corpus.
-
-2. You can use the demo data [here](./assets/demo-data/)
-
-3. Create a new Vectara [API Access](https://docs.vectara.com/docs/console-ui/manage-api-access)
-
-4. Register an account in [Anyscale](https://docs.anyscale.com/) and get your API key.
 
 #### ⚙️ Configuration
 
