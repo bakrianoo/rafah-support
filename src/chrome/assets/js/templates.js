@@ -34,6 +34,9 @@ class Templates {
             {"role": "user", "content": "Is there any color other than white for this laptop?"},
             {"role": "assistant", "content": '{"topic": "product-search", "requires_resources": 1}'},
 
+            {"role": "user", "content": "what’re the return policy?"},
+            {"role": "assistant", "content": '{"topic": "policy-inquiry", "requires_resources": 1}'},
+
             {"role": "user", "content": "Can you provide more details about the material of the yoga mats listed on your website?"},
             {"role": "assistant", "content":  '{"topic": "product-inquiry", "requires_resources": 0}'},
 
@@ -45,6 +48,9 @@ class Templates {
 
             {"role": "user", "content": "do you sell iphone cover case?"},
             {"role": "assistant", "content": '{"topic": "product-search", "requires_resources": 1}'},
+
+            {"role": "user", "content": "how ca I register an account?"},
+            {"role": "assistant", "content": '{"topic": "account-inquiry", "requires_resources": 1}'},
 
             {"role": "user", "content": "I am looking for an affordable camera"},
             {"role": "assistant", "content": '{"topic": "product-search", "requires_resources": 1}'},
@@ -181,6 +187,10 @@ class Templates {
                 dom_text.pop();
                 dom_text = dom_text.join('\n');
 
+                if(!dom_text || dom_text.trim().length < 1){
+                    continue;
+                }
+
                 conversation.push(`- (C): ${dom_text}`);
             } else if (messages_elements[x].classList && messages_elements[x].classList.contains('right')) {
                 // query the div.text-content of the message
@@ -188,6 +198,11 @@ class Templates {
 
                 // extract a topic for the message
                 let dom_text = message_text.innerText;
+
+                if(!dom_text || dom_text.trim().length < 1){
+                    continue;
+                }
+
                 conversation.push(`- (CSA): ${dom_text}`);
             }
         }
