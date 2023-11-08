@@ -50,7 +50,7 @@ Rafah is a browser extension that seamlessly injects state-of-the-art AI feature
 
 1. Download the Rafah project [zip file](https://github.com/bakrianoo/rafah-support/archive/refs/heads/main.zip). Extract it to a folder.
    
-2. Open the [Chrome extensions](chrome://extensions) page. (`Run with Edge browsers too`)
+2. Open the Chrome extensions (`chrome://extensions`) page. (`Run with Edge browsers too`)
    
 3. Turn on the developers mode.
 
